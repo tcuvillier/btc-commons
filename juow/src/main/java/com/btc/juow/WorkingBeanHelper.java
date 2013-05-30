@@ -10,12 +10,12 @@ import java.util.Map;
 public class WorkingBeanHelper {
 	public static Map<Class<? extends WorkingBean>, List<FieldDescriptor>> cache = new HashMap<>();
 
-	public static List<FieldValue<?>> getModifiedFieldValues(WorkingBean wBean) {
-		List<FieldValue<?>> fieldValues = new ArrayList<>();
+	public static List<BaseValue<?,?>> getModifiedFieldValues(WorkingBean wBean) {
+		List<BaseValue<?,?>> fieldValues = new ArrayList<>();
 
 		try {
 			for(FieldDescriptor descriptor: getFieldDescriptors(wBean, wBean.getClass()) ) {
-				FieldValue<?> fieldValue = (FieldValue<?>)descriptor.getField().get(wBean);
+				BaseValue<?,?> fieldValue = (BaseValue<?,?>)descriptor.getField().get(wBean);
 				if( fieldValue.isLoaded() && fieldValue.isModified() )
 					fieldValues.add(fieldValue);
 			}
@@ -45,16 +45,16 @@ public class WorkingBeanHelper {
 				for(Field field: wBeanClass.getDeclaredFields()) {
 					if( !Modifier.isStatic(field.getModifiers()) ) {
 						Class<?> type = field.getType();
-						if( type.isAssignableFrom(FieldValue.class)) {
+						if( BaseValue.class.isAssignableFrom(type)) {
 							field.setAccessible(true);
 
-							FieldValue<?> fieldValue = (FieldValue<?>)field.get(workingBean);
+							BaseValue<?,?> fieldValue = (BaseValue<?,?>)field.get(workingBean);
 
 							// Get the descriptor
 							if(fieldValue != null && fieldValue.getDescriptor() != null )
 								descriptors.add(fieldValue.getDescriptor());
 							else
-								descriptors.add(new FieldDescriptor(wBeanClass, field));
+								descriptors.add(new FieldDescriptor(field));
 						}
 					}
 				}
@@ -75,9 +75,9 @@ public class WorkingBeanHelper {
 		try {
 			for(FieldDescriptor descriptor: getFieldDescriptors(workingBean, workingBean.getClass())) {
 				Field field = descriptor.getField();
-				FieldValue<?> fieldValue = (FieldValue<?>)field.get(workingBean);
+				BaseValue<?,?> fieldValue = (BaseValue<?,?>)field.get(workingBean);
 				if( fieldValue == null ) {
-					FieldValue<?> value = descriptor.newValue();
+					BaseValue<?,?> value = descriptor.newValue();
 					field.set(workingBean, value);
 				} else if( fieldValue.getDescriptor() == null ) {
 					fieldValue.setDescriptor(descriptor);

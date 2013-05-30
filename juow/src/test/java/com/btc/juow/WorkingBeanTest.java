@@ -1,5 +1,7 @@
 package com.btc.juow;
 
+import java.util.ArrayList;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -8,26 +10,34 @@ public class WorkingBeanTest {
 
 	@Test
 	public void testWorkingBean() throws Exception {
-		InvoiceWB cut = new InvoiceWB(true);
-		Assert.assertFalse(cut.isModified());
-		cut.setNumber("1");
-		Assert.assertFalse(cut.isModified());
-		cut.setNumber("2");
-		Assert.assertTrue(cut.isModified());
-		cut.number().reset();
-		Assert.assertFalse(cut.isModified());
+
+		InvoiceWB invoice = new InvoiceWB(true);
+		Assert.assertFalse(invoice.isModified());
+		invoice.setNumber("1");
+		Assert.assertFalse(invoice.isModified());
+		invoice.setNumber("2");
+		Assert.assertTrue(invoice.isModified());
+		invoice.number().reset();
+		Assert.assertFalse(invoice.isModified());
+		invoice.setLines(new ArrayList<InvoiceLineWB>());
 
 		// Test the global reset
-		cut.setNumber("1");
-		cut.setNumber("2");
-		Assert.assertTrue(cut.isModified());
-		cut.reset();
-		Assert.assertFalse(cut.isModified());
+		invoice.setNumber("1");
+		invoice.setNumber("2");
+		Assert.assertTrue(invoice.isModified());
+		invoice.reset();
+		Assert.assertFalse(invoice.isModified());
+
+		InvoiceLineWB line1 = new InvoiceLineWB(invoice, "nordic bath", 1, 2000.0);
+		Assert.assertEquals(invoice, line1.getInvoice());
+		Assert.assertEquals(invoice.lines().size(), 1);
+		Assert.assertEquals(invoice.getLines().get(0), line1);
 	}
 	
+	final int N = 1000;
+
 	@Test
 	public void testPerformanceWorkingBean() throws Exception {
-		final int N = 1000000;
 
 		InvoiceWB [ ] wbs = new InvoiceWB[N];
 
@@ -49,7 +59,6 @@ public class WorkingBeanTest {
 
 	@Test
 	public void testPerformanceBean() throws Exception {
-		final int N = 1000000;
 
 		InvoiceBean [ ] clebeans = new InvoiceBean[N];
 

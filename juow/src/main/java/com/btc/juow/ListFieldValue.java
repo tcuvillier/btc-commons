@@ -1,14 +1,16 @@
 package com.btc.juow;
 
+import java.util.Collection;
 import java.util.List;
 
-public class ListFieldValue<E> extends ToManyValue<List<E>, E> {
+@Descriptor(ArrayListFieldDescriptor.class)
+public class ListFieldValue<E extends WorkingBean> extends CollectionFieldValue<List<E>, E, CollectionFieldDescriptor<Collection<?>>> {
 
 	public ListFieldValue() {
 		super();
 	}
 
-	public ListFieldValue(FieldDescriptor descriptor) {
+	public ListFieldValue(CollectionFieldDescriptor<Collection<?>> descriptor) {
 		super(descriptor);
 	}
 }

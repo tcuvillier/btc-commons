@@ -1,13 +1,17 @@
 package com.btc.juow;
 
+import java.util.Collections;
+import java.util.List;
+
 public class InvoiceWB extends WorkingBean {
+	private ListFieldValue<InvoiceLineWB> lines;
 	private FieldValue<String> number = new FieldValue<String>();
 	private FieldValue<Double> amountExclVAT;
 	private FieldValue<Double> amountInclVAT;
 	private FieldValue<Double> amountVAT;
 	private FieldValue<Double> vatRate;
 
-	public InvoiceWB(String number,Double amountExclVAT, Double amountInclVAT, Double amountVAT, Double vatRate) {
+	public InvoiceWB(String number,Double amountExclVAT, Double amountInclVAT, Double amountVAT, Double vatRate, List<InvoiceLineWB> lines) {
 		super();
 
 		setNumber(number);
@@ -15,6 +19,7 @@ public class InvoiceWB extends WorkingBean {
 		setAmountInclVAT(amountInclVAT);
 		setAmountVAT(amountVAT);
 		setVatRate(vatRate);
+		if( lines != null ) setLines(lines);
 	}
 
 	public InvoiceWB(boolean existInTheDatabase) {
@@ -83,5 +88,17 @@ public class InvoiceWB extends WorkingBean {
 
 	public FieldValue<Double> vatRate() {
 		return vatRate;
+	}
+
+	public ListFieldValue<InvoiceLineWB> lines() {
+		return lines;
+	}
+
+	public List<InvoiceLineWB> getLines() {
+		return Collections.unmodifiableList(lines.getValue());
+	}
+
+	public void setLines(List<InvoiceLineWB> newLines) {
+		lines.setValue(newLines);
 	}
 }
