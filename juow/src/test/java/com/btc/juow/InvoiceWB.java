@@ -1,0 +1,87 @@
+package com.btc.juow;
+
+public class InvoiceWB extends WorkingBean {
+	private FieldValue<String> number = new FieldValue<String>();
+	private FieldValue<Double> amountExclVAT;
+	private FieldValue<Double> amountInclVAT;
+	private FieldValue<Double> amountVAT;
+	private FieldValue<Double> vatRate;
+
+	public InvoiceWB(String number,Double amountExclVAT, Double amountInclVAT, Double amountVAT, Double vatRate) {
+		super();
+
+		setNumber(number);
+		setAmountExclVAT(amountExclVAT);
+		setAmountInclVAT(amountInclVAT);
+		setAmountVAT(amountVAT);
+		setVatRate(vatRate);
+	}
+
+	public InvoiceWB(boolean existInTheDatabase) {
+		super(existInTheDatabase);
+	}
+
+	public InvoiceWB() {
+		super();
+	}
+
+	public String getNumber() {
+		return number.getValue();
+	}
+
+	public void setNumber(String number) {
+		this.number.setValue(number);
+	}
+
+	public FieldValue<String> number() {
+		return number;
+	}
+
+	public Double getAmountInclVAT() {
+		return amountInclVAT.getValue();
+	}
+
+	public void setAmountInclVAT(Double amountInclVAT) {
+		this.amountInclVAT.setValue(amountInclVAT);
+	}
+
+	public FieldValue<Double> amountInclVAT() {
+		return amountInclVAT;
+	}
+
+	public Double getAmountExclVAT() {
+		return amountExclVAT.getValue();
+	}
+
+	public void setAmountExclVAT(Double amountExclVAT) {
+		this.amountExclVAT.setValue(amountExclVAT);
+	}
+
+	public FieldValue<Double> amountExclVAT() {
+		return amountExclVAT;
+	}
+
+	public Double getAmountVAT() {
+		return amountVAT.getValue();
+	}
+
+	public void setAmountVAT(Double amountVAT) {
+		this.amountVAT.setValue(amountVAT);
+	}
+
+	public FieldValue<Double> amountVAT() {
+		return amountVAT;
+	}
+
+	public Double getVatRate() {
+		return vatRate.getValue();
+	}
+
+	public void setVatRate(Double vatRate) {
+		this.vatRate.setValue(vatRate);
+	}
+
+	public FieldValue<Double> vatRate() {
+		return vatRate;
+	}
+}
