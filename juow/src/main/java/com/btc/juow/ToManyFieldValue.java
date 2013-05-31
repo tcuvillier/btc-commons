@@ -5,8 +5,4 @@ public abstract class ToManyFieldValue<C, E extends WorkingBean, D extends Field
 	public ToManyFieldValue() {
 		super();
 	}
-
-	public ToManyFieldValue(D descriptor) {
-		super(descriptor);
-	}
 }

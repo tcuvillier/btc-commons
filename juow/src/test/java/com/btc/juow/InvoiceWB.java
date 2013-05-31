@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class InvoiceWB extends WorkingBean {
+
 	private ListFieldValue<InvoiceLineWB> lines;
 	private FieldValue<String> number = new FieldValue<String>();
 	private FieldValue<Double> amountExclVAT;
@@ -11,7 +12,7 @@ public class InvoiceWB extends WorkingBean {
 	private FieldValue<Double> amountVAT;
 	private FieldValue<Double> vatRate;
 
-	public InvoiceWB(String number,Double amountExclVAT, Double amountInclVAT, Double amountVAT, Double vatRate, List<InvoiceLineWB> lines) {
+	public InvoiceWB(String number,Double amountExclVAT, Double amountInclVAT, Double amountVAT, Double vatRate) {
 		super();
 
 		setNumber(number);
@@ -19,7 +20,6 @@ public class InvoiceWB extends WorkingBean {
 		setAmountInclVAT(amountInclVAT);
 		setAmountVAT(amountVAT);
 		setVatRate(vatRate);
-		if( lines != null ) setLines(lines);
 	}
 
 	public InvoiceWB(boolean existInTheDatabase) {
@@ -28,6 +28,23 @@ public class InvoiceWB extends WorkingBean {
 
 	public InvoiceWB() {
 		super();
+	}
+
+	public void setDefault() {
+		number.unload();
+		setNumber(null);
+
+		amountExclVAT.unload();
+		setAmountExclVAT(0d);
+
+		amountInclVAT.unload();
+		setAmountInclVAT(0d);
+
+		amountVAT.unload();
+		setAmountVAT(0d);
+
+		vatRate.unload();
+		setVatRate(0d);
 	}
 
 	public String getNumber() {
@@ -100,5 +117,10 @@ public class InvoiceWB extends WorkingBean {
 
 	public void setLines(List<InvoiceLineWB> newLines) {
 		lines.setValue(newLines);
+	}
+	
+	public String toString() {
+		if( !number.isLoaded() ) return super.toString();
+		return getNumber();
 	}
 }

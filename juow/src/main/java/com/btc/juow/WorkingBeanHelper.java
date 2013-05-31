@@ -54,16 +54,36 @@ public class WorkingBeanHelper {
 							if(fieldValue != null && fieldValue.getDescriptor() != null )
 								descriptors.add(fieldValue.getDescriptor());
 							else
-								descriptors.add(new FieldDescriptor(field));
+								descriptors.add(createDescriptor(field));
 						}
 					}
 				}
-	
+
 				cache.put(wBeanClass, descriptors);
 			}
-	
+
 			return descriptors;
 
+		} catch(RuntimeException e) {
+			throw e;
+		} catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static FieldDescriptor createDescriptor(Field field) {
+
+		try {
+			Descriptor annotation = field.getAnnotation(Descriptor.class);
+			if( annotation == null ) {
+				for(Class<?> c = field.getType(); c != null; c = c.getSuperclass()) {
+					annotation = c.getAnnotation(Descriptor.class);
+					if( annotation != null ) break;
+				}
+			}
+	
+			Class<? extends FieldDescriptor> dClass = annotation == null ? FieldDescriptor.class: annotation.value();
+			return dClass.getConstructor(Field.class).newInstance(field);
 		} catch(RuntimeException e) {
 			throw e;
 		} catch(Exception e) {
@@ -77,9 +97,11 @@ public class WorkingBeanHelper {
 				Field field = descriptor.getField();
 				BaseValue<?,?> fieldValue = (BaseValue<?,?>)field.get(workingBean);
 				if( fieldValue == null ) {
-					BaseValue<?,?> value = descriptor.newValue();
-					field.set(workingBean, value);
-				} else if( fieldValue.getDescriptor() == null ) {
+					fieldValue = descriptor.newValue();
+					field.set(workingBean, fieldValue);
+				}
+				
+				if( fieldValue.getDescriptor() == null ) {
 					fieldValue.setDescriptor(descriptor);
 				}
 			}

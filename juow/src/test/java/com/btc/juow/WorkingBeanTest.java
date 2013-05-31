@@ -19,7 +19,9 @@ public class WorkingBeanTest {
 		Assert.assertTrue(invoice.isModified());
 		invoice.number().reset();
 		Assert.assertFalse(invoice.isModified());
+
 		invoice.setLines(new ArrayList<InvoiceLineWB>());
+		Assert.assertFalse(invoice.isModified());
 
 		// Test the global reset
 		invoice.setNumber("1");
@@ -32,8 +34,9 @@ public class WorkingBeanTest {
 		Assert.assertEquals(invoice, line1.getInvoice());
 		Assert.assertEquals(invoice.lines().size(), 1);
 		Assert.assertEquals(invoice.getLines().get(0), line1);
+		Assert.assertTrue(invoice.isModified());
 	}
-	
+
 	final int N = 1000;
 
 	@Test

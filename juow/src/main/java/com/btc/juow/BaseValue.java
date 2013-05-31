@@ -7,10 +7,6 @@ public class BaseValue<E, D extends FieldDescriptor> {
 	private E value = null;
 	private boolean loaded = false;
 
-	public BaseValue(D descriptor) {
-		this.descriptor = descriptor;
-	}
-
 	public BaseValue() {
 	}
 
@@ -40,6 +36,12 @@ public class BaseValue<E, D extends FieldDescriptor> {
 		if( ! loaded ) {
 			this.original = value;
 			this.loaded = true;
+		}
+	}
+
+	public void load() {
+		if( ! loaded ) {
+			loaded = true;	// Initialized with an empty value
 		}
 	}
 

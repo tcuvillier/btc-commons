@@ -6,7 +6,7 @@ public class FieldValue<E> extends BaseValue<E, FieldDescriptor> {
 		super();
 	}
 
-	public FieldValue(FieldDescriptor descriptor) {
-		super(descriptor);
+	public FieldValue(E defaultValue) {
+		super();
 	}
 }
