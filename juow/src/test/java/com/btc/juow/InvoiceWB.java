@@ -6,7 +6,7 @@ import java.util.List;
 public class InvoiceWB extends WorkingBean {
 
 	private ListFieldValue<InvoiceLineWB> lines;
-	private FieldValue<String> number = new FieldValue<String>();
+	private FieldValue<String> number;
 	private FieldValue<Double> amountExclVAT;
 	private FieldValue<Double> amountInclVAT;
 	private FieldValue<Double> amountVAT;

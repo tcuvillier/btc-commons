@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 @Descriptor(ListFieldDescriptor.class)
-public class ListFieldValue<E extends WorkingBean> extends CollectionFieldValue<List<E>, E, CollectionFieldDescriptor<Collection<?>>> {
+public class ListFieldValue<E extends WorkingBean> extends CollectionFieldValue<List<E>, E> {
 
 	public class ListProxy<E> extends CollectionProxy<E> implements List<E> {
 		private List<E> delegate;

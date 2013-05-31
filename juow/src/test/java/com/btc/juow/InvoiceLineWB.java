@@ -1,12 +1,12 @@
 package com.btc.juow;
 
 public class InvoiceLineWB extends WorkingBean {
-	private ToOneValue<InvoiceWB> invoice;
+	private ToOneFieldValue<InvoiceWB> invoice;
 	private FieldValue<String> productName;
 	private FieldValue<Integer> quantity;
 	private FieldValue<Double> pricePerUnit;
 
-	public ToOneValue<InvoiceWB> invoice() { return invoice;}
+	public ToOneFieldValue<InvoiceWB> invoice() { return invoice;}
 
 	public InvoiceLineWB(InvoiceWB invoice,
 			String productName, Integer quantity,

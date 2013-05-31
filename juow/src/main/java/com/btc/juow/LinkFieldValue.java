@@ -1,6 +1,6 @@
 package com.btc.juow;
 
-public class LinkFieldValue<E, D extends FieldDescriptor> extends BaseValue<E,D> {
+public abstract class LinkFieldValue<E> extends BaseValue<E> {
 
 	public LinkFieldValue() {
 		super();

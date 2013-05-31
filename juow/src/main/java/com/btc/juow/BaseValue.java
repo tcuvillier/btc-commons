@@ -1,8 +1,10 @@
 package com.btc.juow;
 
+import java.util.Stack;
+
 @Descriptor(FieldDescriptor.class)
-public class BaseValue<E, D extends FieldDescriptor> {
-	private D descriptor;
+public abstract class BaseValue<E> {
+	private FieldDescriptor descriptor;
 	private E original = null;
 	private E value = null;
 	private boolean loaded = false;
@@ -11,13 +13,10 @@ public class BaseValue<E, D extends FieldDescriptor> {
 	}
 
 	void setDescriptor(FieldDescriptor descriptor) {
-
-		@SuppressWarnings("unchecked")
-		D d = (D)descriptor;
-		this.descriptor  = d;
+		this.descriptor  = descriptor;
 	}
 
-	public D getDescriptor() {
+	public FieldDescriptor getDescriptor() {
 		return descriptor;
 	}
 
@@ -26,7 +25,16 @@ public class BaseValue<E, D extends FieldDescriptor> {
 	}
 
 	public E getValue() {
-		mustBeLoaded();
+		return getValue(false);
+	}
+
+	public E getValue(boolean load) {
+		if( !loaded ) {
+			if( load )
+				load();
+			else
+				mustBeLoaded();
+		}
 		return value;
 	}
 
@@ -77,4 +85,10 @@ public class BaseValue<E, D extends FieldDescriptor> {
 			value = original;
 		}
 	}
+	
+	public String getName() {
+		return descriptor.getFieldName();
+	}
+
+	public abstract void work(WorkingVisitor visitor, WorkingBean wbean, Stack<WorkingBean> stack);
 }

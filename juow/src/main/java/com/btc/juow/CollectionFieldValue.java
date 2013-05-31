@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Descriptor(CollectionFieldDescriptor.class)
-public abstract class CollectionFieldValue<C extends Collection<E>, E extends WorkingBean, D extends CollectionFieldDescriptor<Collection<?>>> extends ToManyFieldValue<C, E, D> {
+public abstract class CollectionFieldValue<C extends Collection<E>, E extends WorkingBean> extends ToManyFieldValue<C, E> {
 
 	public abstract class CollectionProxy<E> implements Collection<E> {
 		private Collection<E> delegate;
@@ -121,7 +121,7 @@ public abstract class CollectionFieldValue<C extends Collection<E>, E extends Wo
 
 		public void clear() {
 			if( !isLoaded() ) load();
-			state.removed(delegate);
+			state.clear();
 			delegate.clear();
 		}
 
@@ -152,9 +152,12 @@ public abstract class CollectionFieldValue<C extends Collection<E>, E extends Wo
 	}
 
 	protected C createCollection(C content) {
+		@SuppressWarnings("unchecked")
+		CollectionFieldDescriptor<Collection<E>> descriptor = (CollectionFieldDescriptor<Collection<E>>) getDescriptor();
 
 		@SuppressWarnings("unchecked")
-		C newCollection = (C)getDescriptor().createCollection(content);
+		C newCollection = (C)descriptor.createCollection(content);
+
 		return newCollection;
 	}
 
@@ -173,4 +176,14 @@ public abstract class CollectionFieldValue<C extends Collection<E>, E extends Wo
 	public int size() {
 		return getValue().size();
 	}
+	public boolean isModified() {
+		mustBeLoaded();
+		return getValueProxy().isModified();
+	}
+
+	@Override
+	public Collection<E> getLinkedBeans() {
+		return getValue();
+	}
+
 }

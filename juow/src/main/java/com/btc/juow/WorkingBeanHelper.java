@@ -10,14 +10,29 @@ import java.util.Map;
 public class WorkingBeanHelper {
 	public static Map<Class<? extends WorkingBean>, List<FieldDescriptor>> cache = new HashMap<>();
 
-	public static List<BaseValue<?,?>> getModifiedFieldValues(WorkingBean wBean) {
-		List<BaseValue<?,?>> fieldValues = new ArrayList<>();
+	public static List<BaseValue<?>> getFieldValues(WorkingBean wBean, Boolean loaded, Boolean modified) {
+		List<BaseValue<?>> fieldValues = new ArrayList<>();
 
 		try {
 			for(FieldDescriptor descriptor: getFieldDescriptors(wBean, wBean.getClass()) ) {
-				BaseValue<?,?> fieldValue = (BaseValue<?,?>)descriptor.getField().get(wBean);
-				if( fieldValue.isLoaded() && fieldValue.isModified() )
-					fieldValues.add(fieldValue);
+				BaseValue<?> fieldValue = (BaseValue<?>)descriptor.getField().get(wBean);
+
+				if( fieldValue.isLoaded() ) {
+					boolean add = true;
+
+					if( loaded != null && !loaded )
+						add = false;
+					else if(fieldValue.isModified())
+						add = modified == null || !modified;
+					else
+						add = modified == null || modified;
+
+					if( add)
+						fieldValues.add(fieldValue);
+				} else {
+					if( loaded == null || !loaded )
+						fieldValues.add(fieldValue);
+				}
 			}
 		} catch(RuntimeException e) {
 			throw e;
@@ -48,7 +63,7 @@ public class WorkingBeanHelper {
 						if( BaseValue.class.isAssignableFrom(type)) {
 							field.setAccessible(true);
 
-							BaseValue<?,?> fieldValue = (BaseValue<?,?>)field.get(workingBean);
+							BaseValue<?> fieldValue = (BaseValue<?>)field.get(workingBean);
 
 							// Get the descriptor
 							if(fieldValue != null && fieldValue.getDescriptor() != null )
@@ -95,7 +110,7 @@ public class WorkingBeanHelper {
 		try {
 			for(FieldDescriptor descriptor: getFieldDescriptors(workingBean, workingBean.getClass())) {
 				Field field = descriptor.getField();
-				BaseValue<?,?> fieldValue = (BaseValue<?,?>)field.get(workingBean);
+				BaseValue<?> fieldValue = (BaseValue<?>)field.get(workingBean);
 				if( fieldValue == null ) {
 					fieldValue = descriptor.newValue();
 					field.set(workingBean, fieldValue);

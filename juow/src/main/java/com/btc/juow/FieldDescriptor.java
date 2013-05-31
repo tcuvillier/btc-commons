@@ -21,10 +21,10 @@ public class FieldDescriptor {
 		return field;
 	}
 
-	public BaseValue<?,?> newValue() {
+	public BaseValue<?> newValue() {
 
 		try {
-			BaseValue<?,?> result = (BaseValue<?,?>)field.getType().getConstructor().newInstance();
+			BaseValue<?> result = (BaseValue<?>)field.getType().getConstructor().newInstance();
 			result.setDescriptor(this);
 			return result;
 		} catch(RuntimeException e) {
