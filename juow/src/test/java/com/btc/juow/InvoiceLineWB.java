@@ -8,12 +8,18 @@ public class InvoiceLineWB extends WorkingBean {
 
 	public ToOneFieldValue<InvoiceWB> invoice() { return invoice;}
 
-	public InvoiceLineWB(InvoiceWB invoice,
+	public InvoiceLineWB(InvoiceWB newInvoice,
 			String productName, Integer quantity,
 			Double pricePerUnit) {
 		super();
 
-		setInvoice(invoice);
+		setLink(
+				/* source			*/ this, 
+				/* link target		*/ newInvoice, 
+				/* toOne link		*/ this.invoice, 
+				/* old toMany		*/ this.invoice.isLoaded() && this.invoice.getValue() != null ? this.invoice.getValue().lines(): null, 
+				/* new toMany		*/ newInvoice == null ? null: newInvoice.lines());
+
 		setProductName(productName);
 		setQuantity(quantity);
 		setPricePerUnit(pricePerUnit);
@@ -32,12 +38,7 @@ public class InvoiceLineWB extends WorkingBean {
 	}
 
 	public void setInvoice(InvoiceWB newInvoice) {
-		setLink(
-				/* source			*/ this, 
-				/* link target		*/ newInvoice, 
-				/* toOne link		*/ this.invoice, 
-				/* old toMany		*/ this.invoice.isLoaded() && this.invoice.getValue() != null ? this.invoice.getValue().lines(): null, 
-				/* new toMany		*/ newInvoice == null ? null: newInvoice.lines());
+		invoice.setValue(newInvoice);
 	}
 
 	public FieldValue<String> productName() { return productName;}

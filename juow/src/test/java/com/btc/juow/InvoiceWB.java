@@ -112,7 +112,7 @@ public class InvoiceWB extends WorkingBean {
 	}
 
 	public List<InvoiceLineWB> getLines() {
-		return Collections.unmodifiableList(lines.getValue());
+		return lines.getValue();
 	}
 
 	public void setLines(List<InvoiceLineWB> newLines) {

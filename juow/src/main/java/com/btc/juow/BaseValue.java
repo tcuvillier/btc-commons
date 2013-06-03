@@ -58,7 +58,7 @@ public abstract class BaseValue<E> {
 	public abstract boolean isModified();
 
 	public void mustBeLoaded() {
-		if( ! loaded ) throw new IllegalStateException("Attribute is not loaded");
+		if( ! loaded ) throw new IllegalStateException("Attribute " + getDescriptor().getFieldName() + " is not loaded");
 	}
 
 	public void unload() {

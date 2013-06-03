@@ -147,6 +147,11 @@ public abstract class CollectionFieldValue<C extends Collection<E>, E extends Wo
 		return getValue().add(element);
 	}
 
+	@Override
+	public C getValue() {
+		return super.getValue(true);
+	}
+
 	public void load() {
 		setValue(createCollection(null));
 	}
