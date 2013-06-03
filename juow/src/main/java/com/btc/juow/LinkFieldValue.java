@@ -1,8 +1,17 @@
 package com.btc.juow;
 
-public abstract class LinkFieldValue<E> extends BaseValue<E> {
+import java.util.Stack;
 
-	public LinkFieldValue() {
-		super();
-	}
+public interface LinkFieldValue<E> {
+	E getValue();
+	E getValue(boolean load);
+	void setValue(E value);
+	void load();
+	boolean isLoaded();
+	boolean isModified();
+	void mustBeLoaded();
+	void unload();
+	String getName();
+	void work(WorkingVisitor visitor, WorkingBean wbean, Stack<WorkingBean> stack);
+	FieldDescriptor getDescriptor();
 }

@@ -39,9 +39,12 @@ public class WorkingBean {
 	}
 
 	public void reset() {
-		for(BaseValue<?> fieldValue:  getModifiedFieldValues()) {
-			if( fieldValue.isLoaded() && fieldValue.isModified() ) 
-				fieldValue.reset();
+		for(BaseValue<?> value:  getModifiedFieldValues()) {
+			if( value instanceof FieldValue) {
+				FieldValue<?> fv = (FieldValue<?>)value;
+				if( value.isLoaded() && value.isModified() ) 
+					fv.reset();
+			}
 		}
 	}
 

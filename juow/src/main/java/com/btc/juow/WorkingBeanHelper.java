@@ -23,9 +23,9 @@ public class WorkingBeanHelper {
 					if( loaded != null && !loaded )
 						add = false;
 					else if(fieldValue.isModified())
-						add = modified == null || !modified;
-					else
 						add = modified == null || modified;
+					else
+						add = modified == null || !modified;
 
 					if( add)
 						fieldValues.add(fieldValue);

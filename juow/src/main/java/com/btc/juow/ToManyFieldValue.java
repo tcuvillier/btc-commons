@@ -3,7 +3,7 @@ package com.btc.juow;
 import java.util.Collection;
 import java.util.Stack;
 
-public abstract class ToManyFieldValue<C, E extends WorkingBean> extends LinkFieldValue<C> {
+public abstract class ToManyFieldValue<C, E extends WorkingBean> extends FieldValue<C> implements LinkFieldValue<C> {
 
 	public ToManyFieldValue() {
 		super();

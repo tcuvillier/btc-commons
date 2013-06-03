@@ -2,7 +2,7 @@ package com.btc.juow;
 
 import java.util.Stack;
 
-public class ToOneFieldValue<C extends WorkingBean> extends LinkFieldValue<C> {
+public class ToOneFieldValue<C extends WorkingBean> extends FieldValue<C> implements LinkFieldValue<C> {
 
 	public ToOneFieldValue() {
 		super();
